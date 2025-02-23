@@ -3,6 +3,7 @@ from empresas.models import Empresa
 
 # Create your models here.
 class Oferta(models.Model):
+    codOferta = models.CharField(max_length=255, blank=False, null=False)
     salarioOferta = models.IntegerField(blank=False, null=False)
     fechaPublicacion = models.DateTimeField (blank=False, null=False)
     disponibilidad = models.CharField(max_length=255, blank=False, null=False)
@@ -16,5 +17,4 @@ class Oferta(models.Model):
     numeroEmpresa = models.CharField(max_length=255, blank=False, null=False)
     emailEmpresa = models.CharField(max_length=255, blank=False, null=False)
     tituloOferta = models.CharField (max_length=255, blank=False)
-    codOferta = models.CharField(max_length=255, blank=False, null=False)
-    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name="ofertas", null=True, blank=True)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name="ofertas", null=True, blank=True) 

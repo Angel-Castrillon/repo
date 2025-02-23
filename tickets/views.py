@@ -16,8 +16,15 @@ class TicketTrabajadorViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        trabajador = Trabajador.objects.get(user=self.request.user)
-        serializer.save(codTrabajador=trabajador)
+        cod_trabajador = self.request.data.get('codTrabajador')
+        if not cod_trabajador:
+            raise serializers.ValidationError({'error': 'El campo codTrabajador es requerido.'})
+       
+        try:
+            trabajador = Trabajador.objects.get(pk=cod_trabajador)
+            serializer.save(codTrabajador=trabajador)
+        except Trabajador.DoesNotExist:
+            raise serializers.ValidationError({'error': 'No existe un trabajador con ese código.'})
 
 # Vista para crear tickets desde Empresa
 class TicketEmpresaViewSet(viewsets.ModelViewSet):
@@ -26,5 +33,12 @@ class TicketEmpresaViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        empresa = Empresa.objects.get(emailEmpresa=self.request.user.email)
-        serializer.save(codEmpresa=empresa)
+        cod_empresa = self.request.data.get('codEmpresa')
+        if not cod_empresa:
+            raise serializers.ValidationError({'error': 'El campo codEmpresa es requerido.'})
+        
+        try:
+            empresa = Empresa.objects.get(pk=cod_empresa)
+            serializer.save(codEmpresa=empresa)
+        except Empresa.DoesNotExist:
+            raise serializers.ValidationError({'error': 'No existe una empresa con ese código.'})

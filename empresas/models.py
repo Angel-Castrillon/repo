@@ -9,3 +9,6 @@ class Empresa(models.Model):
     emailEmpresa = models.CharField(max_length=255, blank=False, null=False)
     numeroEmpresa = models.CharField(max_length=255, blank=False, null=False)
     codEmpresa = models.CharField(max_length=255, blank=False, null=False)
+
+    def __str__(self):
+        return self.codEmpresa 
